@@ -1,12 +1,7 @@
-import { Button } from "./components/ui/button";
+import { Dashboard } from "@/components/Dashboard";
 
 function App() {
-  return (
-    <div>
-      <h3>Drag and drop widgets</h3>
-      <Button>Click me</Button>
-    </div>
-  );
+  return <Dashboard />;
 }
 
 export default App;
