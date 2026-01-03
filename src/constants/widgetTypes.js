@@ -20,6 +20,27 @@ export const WIDGET_TYPES = {
     icon: "📰",
     description: "Latest news articles",
   },
+  TASKS: {
+    id: "tasks",
+    name: "Task List",
+    color: "bg-indigo-500",
+    icon: "📋",
+    description: "Manage your daily tasks",
+  },
+  STATS: {
+    id: "stats",
+    name: "Stats Widget",
+    color: "bg-pink-500",
+    icon: "📊",
+    description: "Key performance metrics",
+  },
+  NOTES: {
+    id: "notes",
+    name: "Notes",
+    color: "bg-yellow-500",
+    icon: "📝",
+    description: "Quick personal notes",
+  },
 };
 
 export const WIDGET_ACTIONS = {

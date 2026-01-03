@@ -45,6 +45,44 @@ export const widgetService = {
           updated: "Just now",
         };
 
+      case "tasks":
+        return {
+          items: [
+            { id: 1, text: "Review dashboard", completed: false },
+            { id: 2, text: "Add new widgets", completed: false },
+            { id: 3, text: "Test drag & drop", completed: false },
+          ],
+        };
+
+      case "stats":
+        return {
+          stats: [
+            {
+              label: "Total Users",
+              value: "2,847",
+              icon: "Users",
+              color: "text-blue-500",
+            },
+            {
+              label: "Growth",
+              value: "+12.5%",
+              icon: "TrendingUp",
+              color: "text-green-500",
+            },
+            {
+              label: "Active Now",
+              value: "342",
+              icon: "Activity",
+              color: "text-purple-500",
+            },
+          ],
+        };
+
+      case "notes":
+        return {
+          text: "• Meeting with team at 2 PM\n• Review project requirements\n• Update documentation",
+        };
+
       default:
         throw new Error("Unknown widget type");
     }

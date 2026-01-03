@@ -49,13 +49,22 @@ export function useDragAndDrop(onReorder) {
       e.preventDefault(); // Required to allow dropping
       e.dataTransfer.dropEffect = "move";
 
+      // If hovering over the dragged item itself (original position), reset the target
+      // This ensures the item "snaps back" to its original place
+      if (draggedIndex === index) {
+        if (dragOverIndex !== null) {
+          setDragOverIndex(null);
+        }
+        return;
+      }
+
       // Only update state if we're hovering over a different element
       // PERFORMANCE: Prevents unnecessary re-renders
-      if (draggedIndex !== null && draggedIndex !== index) {
+      if (draggedIndex !== null && dragOverIndex !== index) {
         setDragOverIndex(index);
       }
     },
-    [draggedIndex]
+    [draggedIndex, dragOverIndex]
   );
 
   /**
@@ -91,8 +100,12 @@ export function useDragAndDrop(onReorder) {
    * Handles drag leave event (when cursor leaves a drop target)
    * Resets the drag-over visual state
    */
-  const handleDragLeave = useCallback(() => {
-    setDragOverIndex(null);
+  const handleDragLeave = useCallback((e) => {
+    // Only reset if we are truly leaving the element (not entering a child)
+    // This prevents flickering while maintaining correct "leave" behavior
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setDragOverIndex(null);
+    }
   }, []);
 
   return {

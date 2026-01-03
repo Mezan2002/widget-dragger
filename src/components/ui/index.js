@@ -7,5 +7,6 @@ export {
   CardHeader,
   CardTitle,
 } from "./card";
+export * from "./checkbox";
 export * from "./dialog";
 export * from "./select";

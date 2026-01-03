@@ -3,11 +3,24 @@ import { Widget } from "@/components/Widget";
 export function WidgetList({ widgets, onRemove, onRefresh, dragAndDropProps }) {
   const {
     draggedIndex,
+    dragOverIndex,
     handleDragStart,
     handleDragOver,
     handleDragEnd,
     handleDragLeave,
   } = dragAndDropProps;
+
+  // Visual Reordering Logic
+  let displayWidgets = [...widgets];
+  if (
+    draggedIndex !== null &&
+    dragOverIndex !== null &&
+    widgets[draggedIndex]
+  ) {
+    const draggedItem = displayWidgets[draggedIndex];
+    displayWidgets.splice(draggedIndex, 1);
+    displayWidgets.splice(dragOverIndex, 0, draggedItem);
+  }
 
   if (widgets.length === 0) {
     return (
@@ -22,22 +35,28 @@ export function WidgetList({ widgets, onRemove, onRefresh, dragAndDropProps }) {
   }
 
   return (
-    <div className="space-y-4">
-      {widgets.map((widget, index) => (
-        <Widget
-          key={widget.id}
-          widget={widget}
-          onRemove={() => onRemove(widget.id)}
-          onRefresh={() => onRefresh(widget)}
-          dragHandlers={{
-            onDragStart: handleDragStart(index),
-            onDragOver: handleDragOver(index),
-            onDragEnd: handleDragEnd,
-            onDragLeave: handleDragLeave,
-          }}
-          isDragging={draggedIndex === index}
-        />
-      ))}
+    <div className="space-y-4" onDragLeave={handleDragLeave}>
+      {displayWidgets.map((widget, index) => {
+        // We need to find the ORIGINAL index for the drag start handler to ensure consistency
+        // But for dragOver, we use the visual index
+        const originalIndex = widgets.findIndex((w) => w.id === widget.id);
+        const isDragging = originalIndex === draggedIndex;
+
+        return (
+          <Widget
+            key={widget.id}
+            widget={widget}
+            onRemove={() => onRemove(widget.id)}
+            onRefresh={() => onRefresh(widget)}
+            dragHandlers={{
+              onDragStart: handleDragStart(originalIndex),
+              onDragOver: handleDragOver(index),
+              onDragEnd: handleDragEnd,
+            }}
+            isDragging={isDragging}
+          />
+        );
+      })}
     </div>
   );
 }
