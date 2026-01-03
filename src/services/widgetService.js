@@ -6,11 +6,6 @@ export const widgetService = {
       setTimeout(resolve, 1000 + Math.random() * 500)
     );
 
-    // Simulate occasional errors (10% chance)
-    if (Math.random() < 0.1) {
-      throw new Error("Network error occurred");
-    }
-
     // Generate mock data
     switch (widgetType) {
       case "weather":
